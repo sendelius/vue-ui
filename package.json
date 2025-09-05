@@ -1,0 +1,35 @@
+{
+  "name": "@sendelius/vue-ui",
+  "version": "1.0.2",
+  "description": "",
+  "main": "dist/sendelius-ui.umd.js",
+  "module": "dist/sendelius-ui.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sendelius/vue-ui.git"
+  },
+  "author": "Sendelius",
+  "license": "MIT",
+  "homepage": "https://github.com/sendelius/vue-ui",
+  "output": {
+    "globals": {
+      "vue": "Vue"
+    },
+    "exports": "named"
+  },
+  "dependencies": {
+    "pinia": "^3.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "sass": "^1.82.0",
+    "sass-loader": "^16.0.4",
+    "vite": "^7.1.4"
+  }
+}

@@ -1,1 +1,1 @@
-# vue-ui
+# Sendelius Vue UI
