@@ -13,6 +13,6 @@ const props = defineProps({
 
 const IconComponent = computed(() => {
   const path = `${store.iconsPath}${props.name}.svg`
-  return store.icons[path]?.default || null
+  return store.icons[path] || null
 })
 </script>

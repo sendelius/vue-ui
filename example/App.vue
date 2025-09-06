@@ -11,10 +11,11 @@
       <a href="#">test 4</a>
     </template>
   </Dropdown>
+  <Icon name="dot-vertical" />
 </template>
 
 <script setup>
-import {Dropdown} from '../dist/sendelius-ui.es.js'
+import {Dropdown,Icon} from '../dist/sendelius-ui.es.js'
 </script>
 
 <style scoped>
