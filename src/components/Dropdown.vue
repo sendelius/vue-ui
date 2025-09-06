@@ -21,6 +21,7 @@ const props = defineProps({
   dropdownClass: {type: String, default: ''},
   position: {type: String, default: 'bottom', validator: val => ['bottom', 'right'].includes(val)},
   align: {type: String, default: 'left', validator: val => ['left', 'right'].includes(val)},
+  clickable: { type: Boolean, default: false },
 })
 const store = useStore()
 const isOpen = computed(() => store.openDropdownId === props.id)
@@ -40,19 +41,19 @@ function closeDropdown() {
 }
 
 function onMouseEnter() {
-  if (isTouchDevice) return
+  if (isTouchDevice || props.clickable) return
   clearTimeout(closeTimeout)
   openTimeout = setTimeout(openDropdown, 200)
 }
 
 function onMouseLeave() {
-  if (isTouchDevice) return
+  if (isTouchDevice || props.clickable) return
   clearTimeout(openTimeout)
   closeTimeout = setTimeout(closeDropdown, 200)
 }
 
 function onClickTrigger(e) {
-  if (!isTouchDevice) return
+  if (!isTouchDevice && !props.clickable) return;
   e.stopPropagation()
   if (!isOpen.value) {
     openDropdown()

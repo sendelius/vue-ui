@@ -1,6 +1,6 @@
 <template>
   <h1>Sendelius Vue UI Example</h1>
-  <Dropdown id="test">
+  <Dropdown id="test" clickable="true">
     <template #trigger>
       <button>open dropdown</button>
     </template>
