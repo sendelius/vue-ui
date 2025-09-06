@@ -5,12 +5,15 @@ import Icon from './components/Icon.vue'
 import tools from './utils/tools'
 import {useStore} from './utils/store'
 
+/**
+ * @typedef {import('./types').SendeliusUIOptions} SendeliusUIOptions
+ */
+
+/**
+ * @param {import('vue').App} app
+ * @param {SendeliusUIOptions} [options]
+ */
 const SendeliusUI = {
-    /**
-     * @typedef {import('./types').SendeliusUIOptions} SendeliusUIOptions
-     * @param {import('vue').App} app
-     * @param {SendeliusUIOptions} [options]
-     */
     install(app, options = {}) {
         app.component('Dropdown', Dropdown)
         app.component('Modal', Modal)

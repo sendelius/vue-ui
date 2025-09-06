@@ -1,12 +1,13 @@
 {
   "name": "@sendelius/vue-ui",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/sendelius-ui.umd.js",
   "module": "dist/sendelius-ui.es.js",
   "files": [
     "dist"
   ],
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "vite build"
   },
@@ -30,6 +31,8 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "sass": "^1.82.0",
     "sass-loader": "^16.0.4",
-    "vite": "^7.1.4"
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

@@ -1,9 +1,17 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        dts({
+            insertTypesEntry: true,
+            outDir: 'dist/types',
+            copyDtsFiles: true
+        })
+    ],
     build: {
         lib: {
             entry: 'src/index.js',
@@ -11,10 +19,11 @@ export default defineConfig({
             fileName: (format) => `sendelius-ui.${format}.js`
         },
         rollupOptions: {
-            external: ['vue'],
+            external: ['vue', 'pinia'],
             output: {
                 globals: {
-                    vue: 'Vue'
+                    vue: 'Vue',
+                    pinia: 'Pinia'
                 }
             }
         }

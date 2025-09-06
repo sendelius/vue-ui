@@ -18,6 +18,8 @@ export const useStore = defineStore('sendelius-ui', {
             if (options.prefixClass) this.prefixClass = options.prefixClass
             if (options.iconsPath) this.iconsPath = options.iconsPath
             if (options.icons) this.icons = options.icons
+            if (options.title) this.title = options.title
+            if (options.titleSep) this.titleSep = options.titleSep
         },
     }
 })
