@@ -21,7 +21,7 @@ const props = defineProps({
   dropdownClass: {type: String, default: ''},
   position: {type: String, default: 'bottom', validator: val => ['bottom', 'right'].includes(val)},
   align: {type: String, default: 'left', validator: val => ['left', 'right'].includes(val)},
-  clickable: { type: Boolean, default: false },
+  clickable: {type: Boolean, default: false},
 })
 const store = useStore()
 const isOpen = computed(() => store.openDropdownId === props.id)
@@ -34,6 +34,10 @@ let isTouchDevice = false
 
 function openDropdown() {
   store.openDropdownId = props.id
+  requestAnimationFrame(() => {
+    const dropdownEl = document.querySelector(`.${store.prefixClass}dropdown`)
+    if (dropdownEl) updatePosition()
+  })
 }
 
 function closeDropdown() {
@@ -76,12 +80,16 @@ const updatePosition = () => {
   if (!dropdownEl) return
 
   const dropdownHeight = dropdownEl.offsetHeight
+  const dropdownWidth = dropdownEl.offsetWidth
   const viewportHeight = window.innerHeight
 
   const spaceBelow = viewportHeight - rect.bottom
   const spaceAbove = rect.top
 
-  let top, left, transformY, transformX
+  let top = rect.bottom + window.scrollY
+  let left = rect.left + window.scrollX
+  let transformY = 'translateY(0)'
+  let transformX = 'translateX(0)'
 
   if (props.position === 'bottom') {
     top = rect.bottom + window.scrollY
@@ -89,10 +97,11 @@ const updatePosition = () => {
       left = rect.left + window.scrollX
       transformX = 'translateX(0)'
     } else if (props.align === 'right') {
-      left = rect.right + window.scrollX
-      transformX = 'translateX(-100%)'
+      left = rect.right + window.scrollX - dropdownWidth
+      transformX = 'translateX(0)'
     }
-  } else {
+  } else if (props.position === 'right') {
+    left = rect.right + window.scrollX
     if (spaceBelow >= dropdownHeight || spaceBelow >= spaceAbove) {
       top = rect.top + window.scrollY
       transformY = 'translateY(0)'
@@ -101,18 +110,20 @@ const updatePosition = () => {
       transformY = 'translateY(-100%)'
       alignClass.value = 'bottom'
     }
-    left = rect.right + window.scrollX
-    transformX = 'translateX(0)'
+
+    if (props.align === 'right') {
+      left = rect.right + window.scrollX - dropdownWidth
+      transformX = 'translateX(0)'
+    }
   }
 
   teleportedStyle.value = {
     position: 'absolute',
     transform: `${transformX} ${transformY}`,
     zIndex: props.zIndex,
+    left: `${left}px`,
+    top: `${top}px`,
   }
-
-  teleportedStyle.value.left = `${left}px`
-  teleportedStyle.value.top = `${top}px`
 }
 
 watchEffect(() => {
@@ -127,7 +138,7 @@ window.addEventListener('resize', onScrollOrResize)
 outsideClick({
   componentRef: dropdownRef,
   callback: () => {
-    if (isTouchDevice) closeDropdown()
+    if (isTouchDevice || props.clickable) closeDropdown()
   }
 })
 
