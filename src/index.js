@@ -4,6 +4,7 @@ import Modal from './components/Modal.vue'
 import Icon from './components/Icon.vue'
 import tools from './utils/tools'
 import {useStore} from './utils/store'
+import {outsideClick} from './utils/outsideClick'
 
 /**
  * @typedef {import('./types').SendeliusUIOptions} SendeliusUIOptions
@@ -28,4 +29,4 @@ const SendeliusUI = {
 }
 
 export default SendeliusUI
-export {Dropdown, Modal, Icon, useStore, tools}
+export {Dropdown, Modal, Icon, useStore, tools, outsideClick}
