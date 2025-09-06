@@ -17,10 +17,12 @@
         <button>open dropdown</button>
       </template>
       <template #content>
-        <a href="#">test 1</a>
-        <a href="#">test 2</a>
-        <a href="#">test 3</a>
-        <a href="#">test 4</a>
+        <div style="background: #cccccc;padding: 10px">
+          <a href="#">test 1</a>
+          <a href="#">test 2</a>
+          <a href="#">test 3</a>
+          <a href="#">test 4</a>
+        </div>
       </template>
     </Dropdown>
   </div>

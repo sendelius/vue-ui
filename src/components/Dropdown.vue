@@ -1,8 +1,19 @@
 <template>
-  <div :class="[`${store.prefixClass}dropdown__wrap`, (isOpen) ? `${store.prefixClass}attr__active` : '', wrapClass]" ref="dropdownRef" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClickTrigger">
+  <div
+      :class="[`${store.prefixClass}dropdown__wrap`, (isOpen) ? `${store.prefixClass}attr__active` : '', wrapClass]"
+      ref="dropdownRef"
+      @mouseenter="onMouseEnter"
+      @mouseleave="onMouseLeave"
+      @click="onClickTrigger">
     <slot name="trigger"/>
     <Teleport to="body">
-      <div v-if="isOpen" :class="[`${store.prefixClass}dropdown`, `${store.prefixClass}attr__${alignClass}`, dropdownClass]" :style="teleportedStyle" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+      <div ref="dropdownContentRef"
+           v-show="isOpen"
+           :class="[`${store.prefixClass}dropdown`, `${store.prefixClass}attr__${alignClass}`, dropdownClass]"
+           :style="teleportedStyle"
+           @mouseenter="onMouseEnter"
+           @mouseleave="onMouseLeave"
+           @click="onClickTrigger">
         <slot name="content"/>
       </div>
     </Teleport>
@@ -26,6 +37,7 @@ const props = defineProps({
 const store = useStore()
 const isOpen = computed(() => store.openDropdownId === props.id)
 const dropdownRef = ref(null)
+const dropdownContentRef = ref(null)
 const teleportedStyle = ref({})
 const alignClass = ref(props.align)
 let closeTimeout = null
@@ -35,8 +47,7 @@ let isTouchDevice = false
 function openDropdown() {
   store.openDropdownId = props.id
   requestAnimationFrame(() => {
-    const dropdownEl = document.querySelector(`.${store.prefixClass}dropdown`)
-    if (dropdownEl) updatePosition()
+    if (dropdownContentRef.value) updatePosition()
   })
 }
 
@@ -73,11 +84,10 @@ function onScrollOrResize() {
 }
 
 const updatePosition = () => {
-  if (!dropdownRef.value) return
+  if (!dropdownRef.value || !dropdownContentRef.value) return
 
   const rect = dropdownRef.value.getBoundingClientRect()
-  const dropdownEl = document.querySelector(`.${store.prefixClass}dropdown`)
-  if (!dropdownEl) return
+  const dropdownEl = dropdownContentRef.value
 
   const dropdownHeight = dropdownEl.offsetHeight
   const dropdownWidth = dropdownEl.offsetWidth
@@ -136,7 +146,8 @@ window.addEventListener('scroll', onScrollOrResize, true)
 window.addEventListener('resize', onScrollOrResize)
 
 outsideClick({
-  componentRef: dropdownRef,
+  componentRef: dropdownContentRef,
+  buttonRef: dropdownRef,
   callback: () => {
     if (isTouchDevice || props.clickable) closeDropdown()
   }
