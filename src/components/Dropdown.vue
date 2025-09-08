@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import {ref, watchEffect, onMounted, onBeforeUnmount, nextTick, defineProps, computed} from 'vue'
+import {ref, watchEffect, onMounted, onBeforeUnmount, nextTick, defineProps, computed, defineExpose} from 'vue'
 import {useStore} from "@/utils/store"
 import {outsideClick} from "@/utils/outsideClick"
 
@@ -166,5 +166,10 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onScrollOrResize)
   clearTimeout(closeTimeout)
   clearTimeout(openTimeout)
+})
+
+defineExpose({
+  openDropdown,
+  closeDropdown
 })
 </script>
