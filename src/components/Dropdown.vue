@@ -8,12 +8,11 @@
     <slot name="trigger"/>
     <Teleport to="body">
       <div ref="dropdownContentRef"
-           v-show="isOpen"
+           v-if="isOpen"
            :class="[`${store.prefixClass}dropdown`, `${store.prefixClass}attr__${alignClass}`, dropdownClass]"
            :style="teleportedStyle"
            @mouseenter="onMouseEnter"
-           @mouseleave="onMouseLeave"
-           @click="onClickTrigger">
+           @mouseleave="onMouseLeave">
         <slot name="content"/>
       </div>
     </Teleport>
@@ -47,7 +46,10 @@ let isTouchDevice = false
 function openDropdown() {
   store.openDropdownId = props.id
   requestAnimationFrame(() => {
-    if (dropdownContentRef.value) updatePosition()
+    const dropdownEl = dropdownContentRef.value
+    if (dropdownEl && dropdownEl.offsetWidth > 0) {
+      updatePosition()
+    }
   })
 }
 
@@ -149,7 +151,7 @@ outsideClick({
   componentRef: dropdownContentRef,
   buttonRef: dropdownRef,
   callback: () => {
-    if (isTouchDevice || props.clickable) closeDropdown()
+    if ((isTouchDevice || props.clickable) && isOpen.value) closeDropdown()
   }
 })
 

@@ -5,7 +5,7 @@ export function outsideClick({componentRef, buttonRef, callback}) {
 
     let mouseDownInside = false
 
-    const isInside = (el, target) => el?.value?.contains(target)
+    const isInside = (el, target) => !!el?.value && el.value.contains(target)
 
     const handleMouseDown = (event) => {
         mouseDownInside =
