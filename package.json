@@ -1,6 +1,6 @@
 {
   "name": "@sendelius/vue-ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "dist/sendelius-ui.umd.js",
   "module": "dist/sendelius-ui.es.js",

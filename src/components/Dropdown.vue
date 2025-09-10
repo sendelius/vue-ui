@@ -43,7 +43,7 @@ let closeTimeout = null
 let openTimeout = null
 let isTouchDevice = false
 
-function openDropdown() {
+function open() {
   store.openDropdownId = props.id
   requestAnimationFrame(() => {
     const dropdownEl = dropdownContentRef.value
@@ -53,29 +53,29 @@ function openDropdown() {
   })
 }
 
-function closeDropdown() {
+function close() {
   store.openDropdownId = null
 }
 
 function onMouseEnter() {
   if (isTouchDevice || props.clickable) return
   clearTimeout(closeTimeout)
-  openTimeout = setTimeout(openDropdown, 200)
+  openTimeout = setTimeout(open, 200)
 }
 
 function onMouseLeave() {
   if (isTouchDevice || props.clickable) return
   clearTimeout(openTimeout)
-  closeTimeout = setTimeout(closeDropdown, 200)
+  closeTimeout = setTimeout(close, 200)
 }
 
 function onClickTrigger(e) {
   if (!isTouchDevice && !props.clickable) return;
   e.stopPropagation()
   if (!isOpen.value) {
-    openDropdown()
+    open()
   } else {
-    closeDropdown()
+    close()
   }
 }
 
@@ -151,7 +151,7 @@ outsideClick({
   componentRef: dropdownContentRef,
   buttonRef: dropdownRef,
   callback: () => {
-    if ((isTouchDevice || props.clickable) && isOpen.value) closeDropdown()
+    if ((isTouchDevice || props.clickable) && isOpen.value) close()
   }
 })
 
@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  openDropdown,
-  closeDropdown
+  open,
+  close
 })
 </script>
